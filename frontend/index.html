@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Health Data</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">⚕</span>
+      <div>
+        <h1>Secure Health Data</h1>
+        <p>Análise clínica assistida por IA</p>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span id="llm-badge" class="badge">verificando…</span>
+      <select id="modelo-select" title="Modelo de IA"></select>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="dashboard">Dashboard</button>
+    <button class="tab" data-tab="prontuario">Prontuário SOAP</button>
+    <button class="tab" data-tab="upload">Importar exames</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="panel active">
+      <div class="toolbar">
+        <label for="paciente-select">Paciente</label>
+        <select id="paciente-select"></select>
+        <button id="btn-analisar" class="primary">Analisar</button>
+        <span id="analise-status" class="status"></span>
+      </div>
+
+      <div id="paciente-card" class="cards hidden"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Alertas de segurança</h2>
+          <div id="alertas"><p class="empty">Execute a análise para verificar alertas.</p></div>
+        </div>
+        <div class="card">
+          <h2>Tendências dos exames</h2>
+          <div class="table-wrap">
+            <table id="tendencias-table">
+              <thead>
+                <tr><th>Exame</th><th>Último</th><th>Δ%</th><th>Direção</th><th>Sig.</th></tr>
+              </thead>
+              <tbody><tr><td colspan="5" class="empty">Sem dados.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Evolução temporal</h2>
+        <div id="charts" class="charts"><p class="empty">Gráficos aparecem após a análise.</p></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Interpretação (IA)</h2>
+          <div id="analise-llm" class="markdown"><p class="empty">Aguardando análise.</p></div>
+        </div>
+        <div class="card">
+          <h2>Literatura recuperada (RAG)</h2>
+          <div id="literatura"><p class="empty">Sem literatura indexada.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prontuario" class="panel">
+      <div class="card">
+        <h2>Gerar prontuário SOAP</h2>
+        <div class="form-grid">
+          <label>Paciente
+            <select id="prontuario-paciente"></select>
+          </label>
+          <label>Medicamentos atuais (separados por vírgula)
+            <input type="text" id="prontuario-medicamentos" placeholder="lítio, fluoxetina">
+          </label>
+          <label class="span-2">Conduta médica
+            <textarea id="prontuario-conduta" rows="4" placeholder="Conduta definida pelo médico..."></textarea>
+          </label>
+          <label class="span-2">Observações do médico
+            <textarea id="prontuario-observacoes" rows="4" placeholder="Observações clínicas..."></textarea>
+          </label>
+        </div>
+        <button id="btn-prontuario" class="primary">Gerar prontuário</button>
+        <span id="prontuario-status" class="status"></span>
+        <pre id="prontuario-output" class="output hidden"></pre>
+      </div>
+    </section>
+
+    <section id="upload" class="panel">
+      <div class="card">
+        <h2>Importar exames (CSV)</h2>
+        <p class="hint">Colunas esperadas: nome_completo, cadastro, hemoglobina_g_dL, glicose_mg_dL, TSH_mIU_L, etc.
+          Dados são anonimizados automaticamente antes do armazenamento.</p>
+        <div class="form-grid">
+          <label>Arquivo CSV
+            <input type="file" id="upload-file" accept=".csv">
+          </label>
+          <label>ID do paciente (opcional)
+            <input type="number" id="upload-paciente-id" placeholder="vazio = detectar pelo nome anonimizado">
+          </label>
+        </div>
+        <button id="btn-upload" class="primary">Enviar</button>
+        <span id="upload-status" class="status"></span>
+      </div>
+    </section>
+  </main>
+
+  <footer>Secure Health Data v2 — conteúdo gerado por IA exige validação profissional.</footer>
+
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

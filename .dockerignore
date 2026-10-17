@@ -1,0 +1,11 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+rag_index
+logs
+data/*.db
+data/*.db-journal
+.env
+images
